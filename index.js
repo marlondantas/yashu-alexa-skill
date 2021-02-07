@@ -27,39 +27,48 @@ alexaApp.express({
 app.set("view engine", "ejs");
 
 alexaApp.launch(function(request, response) {
-  response.say("You launched the app!");
-});
+  //Intent Confirmation
 
-alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
+  var prompt = "Gostaria de jogar: O joga da Deusa da colheita?";
+  response.say(prompt).reprompt(prompt).shouldEndSession(false);
+}
+);
 
 alexaApp.intent('NameIntent', {
   "slots": { "NAME": "LITERAL", "AGE": "NUMBER" },
-  "utterances": ["{My name is|my name's} {matt|bob|bill|jake|nancy|mary|jane|NAME} and I am {1-100|AGE}{ years old|}"]
+  "utterances": ["{Meu nome é |meu nome} {matt|bob|bill|jake|nancy|mary|jane|NAME} e eu tenho {1-100|AGE}{anos de idade|}"]
 }, function(req, res) {
   res.say('Your name is ' + req.slot('NAME') + ' and you are ' + req.slot('AGE') + ' years old');
 });
 
+
+
+alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
+
+
 alexaApp.intent('AgeIntent', {
   "slots": { "AGE": "NUMBER" },
-  "utterances": ["My age is {1-100|AGE}"]
+  "utterances": ["minha idade é {1-100|AGE}"]
 }, function(req, res) {
   res.say('Your age is ' + req.slot('AGE'));
 });
 
 alexaApp.intent('SelfIntent', {
   "slots": { "NAME": "LITERAL" },
-  "utterances": ["Tell about {puttareddy|NAME}"]
+  "utterances": ["me fale sobre o {puttareddy|NAME}"]
 }, function(req, res) {
   let name = req.data.request.intent.slots.NAME.value;
   //console.log('name is -->', name)
   let obj = '';
+
   if (name === 'murali'){
     obj +='Murali is Adolf Hitler for 235 Bloor East kids'
   }else if(name === 'puttareddy'){
     obj +='Puttareddy is creazy boy in 235 Bloor east'
   }
+
   res.say(obj);
 });
 
 
-app.listen(PORT, () => console.log("Listening on port " + PORT + "."));
+app.listen(PORT, () => console.log("Ouvindo a porta: " + PORT + "."));
