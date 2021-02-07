@@ -29,19 +29,22 @@ app.set("view engine", "ejs");
 alexaApp.launch(function(request, response) {
   //Intent Confirmation
 
-  var prompt = "Gostaria de jogar: O joga da Deusa da colheita?";
-  response.say(prompt).reprompt(prompt).shouldEndSession(false);
+  var prompt = "Iniciando o jogo da Deusa da colheita";
+  
+  response.say(prompt).shouldEndSession(false);
 }
 );
+
+
+
+
 
 alexaApp.intent('NameIntent', {
   "slots": { "NAME": "LITERAL", "AGE": "NUMBER" },
   "utterances": ["{Meu nome é |meu nome} {matt|bob|bill|jake|nancy|mary|jane|NAME} e eu tenho {1-100|AGE}{anos de idade|}"]
 }, function(req, res) {
-  res.say('Your name is ' + req.slot('NAME') + ' and you are ' + req.slot('AGE') + ' years old');
+  res.say('Your name is ' + req.slot('NAME') + ' and you are ' + req.slot('AGE') + ' years old').shouldEndSession(false);
 });
-
-
 
 alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
 
@@ -50,7 +53,7 @@ alexaApp.intent('AgeIntent', {
   "slots": { "AGE": "NUMBER" },
   "utterances": ["minha idade é {1-100|AGE}"]
 }, function(req, res) {
-  res.say('Your age is ' + req.slot('AGE'));
+  res.say('Your age is ' + req.slot('AGE')).shouldEndSession(false);
 });
 
 alexaApp.intent('SelfIntent', {
@@ -67,7 +70,13 @@ alexaApp.intent('SelfIntent', {
     obj +='Puttareddy is creazy boy in 235 Bloor east'
   }
 
-  res.say(obj);
+  res.say(obj).shouldEndSession(false);
+});
+
+alexaApp.intent('AMAZON.CancelIntent', {
+  "utterances": ["Fechar o app"]
+}, function(req, res) {
+  res.say('Fechando o jogo da deusa da colheita.');
 });
 
 
