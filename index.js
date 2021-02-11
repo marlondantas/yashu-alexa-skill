@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 
 alexaApp.launch(function(request, response) {
   //Intent Confirmation
-  request.getSession().set("number", 42);
+  request.getSession().set("Pontos", 42);
   var prompt = "Iniciando o jogo da Deusa da colheita";
   response.say(prompt).shouldEndSession(false);
 });
@@ -37,37 +37,34 @@ alexaApp.launch(function(request, response) {
 alexaApp.intent('NumeroMaior', {
   "utterances": ["{O próximo número é maior}"]
 }, function(req, res) {
-  // var session = request.getSession();
-  
-  // var t_pontos = session.get("Pontos");
-  // t_pontos = t_pontos + 1 ;
+    var session = req.getSession();
+    
+    var t_pontos = session.get("Pontos");
+    t_pontos = t_pontos + 1 ;
 
-  // request.getSession().set("Pontos", t_pontos);
+    req.getSession().set("Pontos", t_pontos);
 
-  // var saida = 'Você ganhou!';
-  // res.say(saida).shouldEndSession(false);
-  var session = request.getSession();
-  response.say("The number is " + session.get("number"));
-
+    var saida = 'Você ganhou!';
+    res.say(saida).shouldEndSession(false);
 });
 
 alexaApp.intent('NumeroMenor', {
   "utterances": ["{O próximo número é Menor}"]
 }, function(req, res) {
 
+  var session = req.getSession();
+  
+  var t_pontos = session.get("Pontos");
+  t_pontos = t_pontos - 1 ;
+  
+  req.getSession().set("Pontos", t_pontos);
+
+  var saida = 'Você perdeu!';
+  res.say(saida).shouldEndSession(false);
+
   // var session = request.getSession();
-  
-  // var t_pontos = session.get("Pontos");
-  // t_pontos = t_pontos - 1 ;
-  
-  // request.getSession().set("Pontos", t_pontos);
-
-  // var saida = 'Você perdeu!';
-  // res.say(saida).shouldEndSession(false);
-
-  var session = request.getSession();
-  session.clear(); // or: session.clear("key") to clear a single value
-  response.say("Session cleared!");
+  // session.clear(); // or: session.clear("key") to clear a single value
+  // response.say("Session cleared!");
 
 });
 
