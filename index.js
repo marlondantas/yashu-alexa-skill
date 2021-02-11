@@ -68,7 +68,7 @@ alexaApp.intent('NumeroMenor', {
   var session = request.getSession();
   session.clear(); // or: session.clear("key") to clear a single value
   response.say("Session cleared!");
-  
+
 });
 
 alexaApp.intent('TotalPontos', {
@@ -142,6 +142,7 @@ alexaApp.on('DeviceEngine.InputHandler', (request, response, request_json) => {
 
 alexaApp.error = function(exception, request, response) {
   response.say("Desculpa, alguma coisa ruim aconteceu");
+  console.log(exception);
 };
 
 app.listen(PORT, () => console.log("Ouvindo a porta: " + PORT + "."));
