@@ -44,7 +44,7 @@ alexaApp.intent('NumeroMaior', {
 
     req.getSession().set("Pontos", t_pontos);
 
-    var saida = 'Você ganhou!';
+    var saida = `Você ganhou e tem o total de ${t_pontos}`;
     res.say(saida).shouldEndSession(false);
 });
 
@@ -59,7 +59,7 @@ alexaApp.intent('NumeroMenor', {
   
   req.getSession().set("Pontos", t_pontos);
 
-  var saida = 'Você perdeu!';
+  var saida = `Você perdeu e tem o total de ${t_pontos}`;
   res.say(saida).shouldEndSession(false);
 
   // var session = request.getSession();
