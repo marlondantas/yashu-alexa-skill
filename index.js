@@ -29,42 +29,46 @@ app.set("view engine", "ejs");
 
 alexaApp.launch(function(request, response) {
   //Intent Confirmation
-  request.getSession().set("Pontos", 0);
-
+  request.getSession().set("number", 42);
   var prompt = "Iniciando o jogo da Deusa da colheita";
-
   response.say(prompt).shouldEndSession(false);
-  response.card("Oi mundo", "Isso é um exemplo de cartão...");
-
 });
 
 alexaApp.intent('NumeroMaior', {
   "utterances": ["{O próximo número é maior}"]
 }, function(req, res) {
-  var session = request.getSession();
+  // var session = request.getSession();
   
-  var t_pontos = session.get("Pontos");
-  t_pontos = t_pontos + 1 ;
+  // var t_pontos = session.get("Pontos");
+  // t_pontos = t_pontos + 1 ;
 
-  request.getSession().set("Pontos", t_pontos);
+  // request.getSession().set("Pontos", t_pontos);
 
-  var saida = 'Você ganhou!';
-  res.say(saida).shouldEndSession(false);
+  // var saida = 'Você ganhou!';
+  // res.say(saida).shouldEndSession(false);
+  var session = request.getSession();
+  response.say("The number is " + session.get("number"));
+
 });
 
 alexaApp.intent('NumeroMenor', {
   "utterances": ["{O próximo número é Menor}"]
 }, function(req, res) {
 
-  var session = request.getSession();
+  // var session = request.getSession();
   
-  var t_pontos = session.get("Pontos");
-  t_pontos = t_pontos - 1 ;
+  // var t_pontos = session.get("Pontos");
+  // t_pontos = t_pontos - 1 ;
   
-  request.getSession().set("Pontos", t_pontos);
+  // request.getSession().set("Pontos", t_pontos);
 
-  var saida = 'Você perdeu!';
-  res.say(saida).shouldEndSession(false);
+  // var saida = 'Você perdeu!';
+  // res.say(saida).shouldEndSession(false);
+
+  var session = request.getSession();
+  session.clear(); // or: session.clear("key") to clear a single value
+  response.say("Session cleared!");
+  
 });
 
 alexaApp.intent('TotalPontos', {
@@ -103,8 +107,8 @@ alexaApp.intent('SelfIntent', {
   console.log('name is -->', name)
   
   let obj = '';
-
-  if (name === 'pokmemon'){
+  
+  if (name === 'pokemon'){
     obj +='pokemon é bem legal'
   }else if(name === 'puttareddy'){
     obj +='Puttareddy is creazy boy in 235 Bloor east'
