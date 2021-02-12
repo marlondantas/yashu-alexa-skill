@@ -1,12 +1,12 @@
 var express = require("express");
+
 var alexa = require("alexa-app");
 
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 var app = express();
 
 // ALWAYS setup the alexa app and attach it to express before anything else.
-var alexaApp = new alexa.app("test");
-alexaApp.persistentSession = false;
+var alexaApp = new alexa.app("deusadacolheita");
 
 alexaApp.express({
   expressApp: app,
@@ -27,80 +27,83 @@ alexaApp.express({
 // from here on you can setup any other express routes or middlewares as normal
 app.set("view engine", "ejs");
 
+alexaApp.persistentSession = false;
+
 alexaApp.launch(function(request, response) {
   //Intent Confirmation
-  request.getSession().set("Pontos", 42);
-  var prompt = "Iniciando o jogo da Deusa da colheita";
-  response.say(prompt).shouldEndSession(false);
+  try {
+    //TODO log de inicio da função.
+    var _prompt = "Iniciando o jogo da Deusa da colheita";
+
+    request.getSession().set("Pontos", 42);
+    response.say(_prompt).shouldEndSession(false);
+
+  } catch (error) {
+    //TODO log do erro.
+    console.error("Deu erro: " + error);
+  }
+  finally{
+    //TODO log de fim da função;
+  }
 });
 
-alexaApp.intent('NumeroMaior', {
-  "utterances": ["{O próximo número é maior}"]
-}, function(req, res) {
-    var session = req.getSession();
-    
-    var t_pontos = session.get("Pontos");
-    t_pontos = t_pontos + 1 ;
 
-    req.getSession().set("Pontos", t_pontos);
+/*
+  intent amazon ->AMAZON.<>
+  intent proprio->DEUSA.<>
+*/
 
-    var saida = `Você ganhou e tem o total de ${t_pontos}`;
-    res.say(saida).shouldEndSession(false);
-});
+var DEUSA_utterances = require("./utterances");
+var DEUSA_IntentRequests = require("./IntentRequests");
+
+alexaApp.intent('NumeroMaior', DEUSA_utterances.NumeroMaior,DEUSA_IntentRequests.NumeroMaior);
 
 alexaApp.intent('NumeroMenor', {
   "utterances": ["{O próximo número é Menor}"]
-}, function(req, res) {
+}, function(request, response) {
 
-  var session = req.getSession();
+  var session = request.getSession();
   
   var t_pontos = session.get("Pontos");
   t_pontos = t_pontos - 1 ;
   
-  req.getSession().set("Pontos", t_pontos);
+  request.getSession().set("Pontos", t_pontos);
 
   var saida = `Você perdeu e tem o total de ${t_pontos}`;
-  res.say(saida).shouldEndSession(false);
-
-  // var session = request.getSession();
-  // session.clear(); // or: session.clear("key") to clear a single value
-  // response.say("Session cleared!");
-
+  response.say(saida).shouldEndSession(false);
 });
 
 alexaApp.intent('TotalPontos', {
   "utterances": ["{Quantos pontos eu tenho}"]
-}, function(req, res) {
+}, function(request, response) {
 
   var session = request.getSession();
   var t_pontos = session.get("Pontos");
   var saida = `Você tem ${t_pontos} pontos`;
-  res.say(saida).shouldEndSession(false);
+  response.say(saida).shouldEndSession(false);
 });
 
 
 alexaApp.intent('NameIntent', {
   "slots": { "NAME": "LITERAL", "AGE": "NUMBER" },
   "utterances": ["{Meu nome é |meu nome} {NAME} e eu tenho {1-100|AGE}{anos de idade}"]
-}, function(req, res) {
-  res.say('Your name is ' + req.slot('NAME') + ' and you are ' + req.slot('AGE') + ' years old').shouldEndSession(false);
+}, function(request, response) {
+  response.say('Your name is ' + request.slot('NAME') + ' and you are ' + request.slot('AGE') + ' years old').shouldEndSession(false);
 });
-
-//alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
 
 alexaApp.intent('AgeIntent', {
   "slots": { "AGE": "NUMBER" },
   "utterances": ["minha idade é {1-100|AGE}"]
-}, function(req, res) {
-  res.say('Your age is ' + req.slot('AGE')).shouldEndSession(false);
+}, function(request, response) {
+  response.say('Your age is ' + request.slot('AGE')).shouldEndSession(false);
 });
 
 alexaApp.intent('SelfIntent', {
   "slots": { "NAME": "LITERAL" },
   "utterances": ["me fale sobre o {puttareddy|NAME}"]
-}, function(req, res) {
+}, function(request, response) {
 
-  let name = req.data.request.intent.slots.NAME.value;
+  let name = request.data.request.intent.slots.NAME.value;
   console.log('name is -->', name)
   
   let obj = '';
@@ -111,34 +114,27 @@ alexaApp.intent('SelfIntent', {
     obj +='Puttareddy is creazy boy in 235 Bloor east'
   }
 
-  res.say(obj).shouldEndSession(false);
+  response.say(obj).shouldEndSession(false);
 
 });
 
 alexaApp.intent('AMAZON.StopIntent', {
   "utterances": ["Fechar o app"]
-}, function(req, res) {
-  res.say('Fechando o jogo da deusa da colheita.');
+}, function(request, response) {
+  response.say('Fechando o jogo da deusa da colheita.');
 });
 
 alexaApp.intent("AMAZON.HelpIntent", {
   "utterances": ["O que app faz|Ajuda|help"]
 },
 function(request, response) {
-  var helpOutput = "´Bem vindo ao jogo da colheita, quando o jogo começar vai ser apresentado um número, você terá que descobrir se o próximo número é maior ou menor...";
-  var reprompt = "Gostaria de começar? Diga Começar o jogo ou fechar o app";
-  // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
-  response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
+  var helpOutput = "Bem vindo ao jogo da colheita, quando o jogo começar vai ser apresentado um número, você terá que descobrir se o próximo número é maior ou menor... Gostaria de começar? Diga Começar o jogo ou fechar o app";
+  response.say(helpOutput).shouldEndSession(false);
 }
 );
 
-
-alexaApp.on('DeviceEngine.InputHandler', (request, response, request_json) => {
-  response.say("Deu gatinho do dispositivo " + request_json.request.event.deviceName);
-});
-
 alexaApp.error = function(exception, request, response) {
-  response.say("Desculpa, alguma coisa ruim aconteceu");
+  response.say("Desculpa, alguma coisa ruim aconteceu bad end");
   console.log(exception);
 };
 
