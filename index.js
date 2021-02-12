@@ -15,11 +15,9 @@ alexaApp.express({
 });
 
 app.set('views', path.join(__dirname, '/alexaApp/views'))
-console.log(path.join(__dirname, '/alexaApp/views'));
-
 app.set("view engine", "ejs");
 
-alexaApp.persistentSession = false;
+alexaApp.persistentSession = true;
 
 /*
 intent amazon ->AMAZON.<>

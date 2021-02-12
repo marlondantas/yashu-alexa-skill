@@ -1,10 +1,17 @@
-stopIntent={
-    "utterances": ["Fechar o app"]
+const stopIntent={
+    "utterances": ["{Fechar o app|Fechar o aplicativo|Sair}"]
 };
 
-helpIntent={
-    "utterances": ["O que app faz|Ajuda|help"]
-}
+const helpIntent={
+    "utterances": ["{O que app faz|Ajuda|help}"]
+};
 
+const cancelIntent={
+    "utterances": ["{Cancelar|Voltar}"]
+};
 
-module.exports = {stopIntent,helpIntent};
+const navigateHomeIntent={
+    
+};
+
+module.exports = {stopIntent,helpIntent,cancelIntent,navigateHomeIntent};
