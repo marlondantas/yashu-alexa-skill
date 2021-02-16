@@ -11,7 +11,7 @@ const cancelIntent={
 };
 
 const navigateHomeIntent={
-    
+    "utterances": ["{Menu principal|Inicio}"]
 };
 
 module.exports = {stopIntent,helpIntent,cancelIntent,navigateHomeIntent};

@@ -1,5 +1,5 @@
 //classe do jogador, código autoral
-const dataNow = require("./../../../model/Datanow.js");
+const dataNow = require("./../../comun/model/Datanow.js");
 const game = require("./Jogo.js");
 
 class User{

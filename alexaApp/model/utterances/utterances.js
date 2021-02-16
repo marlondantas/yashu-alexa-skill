@@ -1,10 +1,10 @@
 
 const NumeroMaior = {
-  "utterances": ["{O próximo número é maior|Maior|Big}"]
+  "utterances": ["{O próximo número é maior|Maior}"]
 };
 
 const NumeroMenor = {
-  "utterances": ["{O próximo número é Menor|Maior|Smaller}"]
+  "utterances": ["{O próximo número é Menor|Menor}"]
 };
 
 const TotalPontos = {
@@ -16,12 +16,16 @@ const ComecarJogo ={
 };
 
 const SalvarDados={
-
+  "utterances": ["{Salvar o jogo}"]
 };
 
 const PausarJogo = {
+  "utterances": ["{Pausar o jogo|Quero continuar mais tarde|Parar}"]
+};
 
+const NumeroAtual ={
+  "utterances": ["{Qual o número atual|Qual número era mesmo?|Qual é o número de agora}"]
 };
 
 
-module.exports = {NumeroMaior,NumeroMenor,TotalPontos,ComecarJogo,SalvarDados,PausarJogo};
+module.exports = {NumeroMaior,NumeroMenor,TotalPontos,ComecarJogo,SalvarDados,PausarJogo,NumeroAtual};

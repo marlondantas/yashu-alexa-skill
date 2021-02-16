@@ -36,6 +36,7 @@ alexaApp.error = AMAZON_IntentRequests.onError;
 alexaApp.intent('NumeroMaior', DEUSA_utterances.NumeroMaior,DEUSA_IntentRequests.NumeroMaior);
 alexaApp.intent('NumeroMenor', DEUSA_utterances.NumeroMenor,DEUSA_IntentRequests.NumeroMenor );
 alexaApp.intent('TotalPontos', DEUSA_utterances.TotalPontos,DEUSA_IntentRequests.TotalPontos);
+alexaApp.intent('ComecarJogo', DEUSA_utterances.ComecarJogo,DEUSA_IntentRequests.ComecarJogo);
 
 // alexaApp.intent('NameIntent', {
 //   "slots": { "NAME": "LITERAL", "AGE": "NUMBER" },
@@ -73,6 +74,15 @@ alexaApp.intent('TotalPontos', DEUSA_utterances.TotalPontos,DEUSA_IntentRequests
 
 alexaApp.intent('AMAZON.StopIntent', AMAZON_utterances.stopIntent, AMAZON_IntentRequests.stopIntent);
 alexaApp.intent("AMAZON.HelpIntent", AMAZON_utterances.helpIntent,AMAZON_IntentRequests.helpIntent);
+
+alexaApp.messages.NO_INTENT_FOUND = "Desculpa, essa requisição não faz sentido para mim.";
+alexaApp.messages.NO_AUDIO_PLAYER_EVENT_HANDLER_FOUND = "Desculpa, esse evento de audio não faz sentido...";
+alexaApp.messages.NO_LAUNCH_FUNCTION = "Não foi encontrado a função de inicio...";
+alexaApp.messages.INVALID_REQUEST_TYPE = "Erro, requisição invalida.";
+alexaApp.messages.NO_CUSTOM_REQUEST_HANDLER = "Erro, não foi encontrado um evento customizado.";
+alexaApp.messages.NO_SESSION = "Essa requisição não aceita atributos de sessão";
+alexaApp.messages.GENERIC_ERROR = "Ops, encontrei um erro desconhecid";
+alexaApp.messages.NO_DISPLAY_ELEMENT_SELECTED_FUNCTION = "O display não foi implementado.";
 
 app.listen(PORT, () => console.log("Ouvindo a porta: " + PORT + "."));
 
